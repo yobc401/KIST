@@ -1,0 +1,39 @@
+ SYSTEM     =    ???  
+
+# Geometry optimization
+
+ GGA        =  RP        ! PB, PW(PW86), LM, 91(PW91), PE(PBE), RP(RPBE), PS(PBEsol)
+
+# Electronic relaxation
+
+# IALGO      =  48
+# PREC       =  med
+ ENCUT      =  400 eV
+ EDIFF      =  1E-6
+ LWAVE      = .False.
+ LORBIT     =  11
+ ALGO       =  Fast
+# ISYM = 1
+
+# Ionic relaxation
+
+ LREAL      = .False.
+ ISIF       =  1        ! 1 = not change cell shape,  3 = change cell shape
+ IBRION     =  2        ! SINGLE POINT = -1 (Accurate DOS), Conjugate gradient = 2
+ NSW        =  500      ! 0 (Accurate DOS)
+ ISMEAR     =  0        ! Gaussian smearing -> 0          DOS -> -5   Methfessel-Paxton order N --> N
+ SIGMA      =  0.01     
+ EDIFFG     =  -0.01
+
+# Spin polarization parameters
+
+ ISPIN      =  2        ! spin polarized = 2, non spin polarized = 1
+# ICHARG= 1              ! Read the charge density from file CHGCAR
+ NEDOS      =  3000
+ LCHARG     = .False.
+
+# Parallelization
+
+ NPAR  = 2
+ LPLANE     = .False.
+

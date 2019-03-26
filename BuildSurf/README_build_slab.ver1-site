@@ -1,0 +1,29 @@
+/**************************************************************************************/
+/**************************************************************************************/
+/**************************************************************************************/
+/*                                                                                    */
+/*                                                                                    */
+/*                    Adsorbate Site Location Program (ASLP)                          */
+/*                                                                                    */
+/*                                                                                    */
+/**************************************************************************************/
+/**************************************************************************************/
+
+
+Writen by Byung Chul Yeo, Seungchul Kim, Sang Soo Han in Korea Institute of Science of Technology
+
+
+This program is to locate a particular absorbate on the slab structures.
+The crystal structural format comes from the input in VASP software.
+
+*Usage: ./build_slab.ver1-site POSCAR ADS.MODE ADS.POSCAR HEIGHT  
+Input:
+	POSCAR: POSCAR filename of unit cell structure
+	ADS.MOD: specify the site; e.g) Top1 = 4, Top2 = 5, Bridge1 = 2, Bridge2 = 6, Hollow1 = 9, Hollow2 = 10
+	ADS.POSCAR: POSCAR file of adsorbate molecule 
+	HEIGHT: specify the distance between the adsorbate and top surface 
+
+Output:
+	POSCAR.out: POSCAR file to build the system with slab and adsorbate.
+
+

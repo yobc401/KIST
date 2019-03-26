@@ -1,0 +1,34 @@
+/**************************************************************************************/
+/**************************************************************************************/
+/**************************************************************************************/
+/*                                                                                    */
+/*                                                                                    */
+/*                 High Throughput Automatic Screening (HTAS)                         */
+/*                                                                                    */
+/*                                                                                    */
+/**************************************************************************************/
+/**************************************************************************************/
+
+
+Writen by Byung Chul Yeo, Sang Soo Han in Korea Institute of Science of Technology
+
+* autocal.sh: Calculate physical properties such as volume, density, surface area, pore diameter, etc... of 
+              all structural files (.cif) in database directory automatically.
+Usage: ./autocal.sh $path_database.cif
+Output: 
+	AUTOMAT.out1.dat: Properties for absorbent 
+	AUTOMAT.out2.dat: Properties for absorbate as molecule 1, N2
+	AUTOMAT.out3.dat: Properties for absorbate as molecule 2, C3H6
+
+* screen.sh: Filter to satisfy specific conditions 
+Usage: ./screen.sh
+Output:
+	SCREEN_TOTAL_in.dat
+	SCREEN_out1.dat: Density Condition (> 2.0 g/cm3) 
+	SCREEN_out2.dat: Surface Area Condition (> 400 m2/g)
+	SCREEN_out3.dat: Accessibility Conditon (ASA/SA> 0.95; UnitCell & SuperCell)
+	SCREEN_out4.dat: Pore Diameter Conditon (> 5.0 Angstroms)
+
+* clean.sh: Waste all unnecessible files
+Usage: ./clean.sh
+

@@ -1,0 +1,32 @@
+/**************************************************************************************/
+/**************************************************************************************/
+/**************************************************************************************/
+/*                                                                                    */
+/*                                                                                    */
+/*                         Surface Builder Program (SBP)                              */
+/*                                                                                    */
+/*                                                                                    */
+/**************************************************************************************/
+/**************************************************************************************/
+
+
+Writen by Byung Chul Yeo, Seungchul Kim, Sang Soo Han in Korea Institute of Science of Technology
+
+
+This program is to make slab structure where surface plane appears.
+The crystal structural format comes from the input in VASP software.
+
+*Usage: ./build_slab POSCAR VECTOR VACUUM_H LAYERS_N EXPAND_X_TIMES EXPAND_Y_TIMES OPT_SQRT(3) 
+Input:
+	POSCAR: POSCAR filename of unit cell structure
+	VECTOR: specify the plane type; (1 0 0) = 1, (1 1 0) = 2, (1 1 1) = 3
+	VACUUM_H: specify the vacuum length (Angstrom)
+	LAYERS_N: specify the number of layers
+	EXPAND_X_TIMES, EXPAND_Y_TIMES: specify the integer number for expansion parameters to x and y axis
+	OPT_SQRT(3): convert to sqrt(3)Xsqrt(3)R30degree for surface reconstruction; on: 1, off: 0
+
+Output:
+	POSCAR.out: POSCAR file to cleave assigned plane
+	NOTE) Fix 2 bottom layers in final structure for running VASP program		
+
+

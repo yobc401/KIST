@@ -1,0 +1,120 @@
+/**************************************************************************************/
+/**************************************************************************************/
+/**************************************************************************************/
+/*                                                                                    */
+/*                                                                                    */
+/*        Alloy Catalyst Design of ab-inito Automatic Calculation (ACAC)              */
+/*                                                                                    */
+/*                                                                                    */
+/**************************************************************************************/
+/**************************************************************************************/
+
+
+Writen by Byung Chul Yeo, Sang Soo Han in Korea Institute of Science of Technology
+
+There are 5 directories to distinguish major operation to run ACAC program.
+
+**1.Generate-AlloyCatalysts  
+*Usage: ./gen_TOTAL_AB.sh
+Necessary Files: 
+	INPUT_A_LIST: The alloy's first atom element names are written.
+	INPUT_B_LIST: The alloy's second atom element names are written.
+	
+Output Files: 
+	ALLOY_LIST_TABLE: Two alloy's atom element symbols are written as line by line.
+	TOTAL_AB: Two alloy's atom element symbols and structure names are written as line by line.
+(Structure Type: FCC, CsCl, NaCl, Wurtzite, Zinc blende, HCP, B33, B19, B11, B27, L11)
+
+*Usage: ./gen_compound ATOM_INFO TOTAL_AB
+Input Files:
+	ATOM_INFO: the atomic information such as atomic number, symbol, name, radius, etc
+	TOTAL_AB: comes from "gen_TOTAL_AB.sh"
+
+Output Files:
+	COMPOUNDS_LIST: includes alloy's atomic symbol, structure type, structure index, lattice parameters (a,b,c)
+
+
+**2.Auto-ab.inito.Calculation  
+*Usage: ./genInput.sh: generate "qsub.sh" for the purpose of queue submission
+Necessary File:
+	COMPOUNDS_LIST: comes from "1.Generate-AlloyCatalysts/"
+	gen_POSCAR: generate POSCAR file
+	gen_POTCAR.sh: generate POTCAR file
+	INPUT/: includes INCAR, KPOINTS files
+
+Output File:
+	qsub.sh: queue submission script file
+
+*Optional:  	
+	divideFile.sh: divide "COMPOUNDS_LIST" file to allow pararell process in order to save running time linearly.
+                   output COMPOUNDS_LIST.xx (xx means the index of division) 
+
+
+**3.Postprocess  
+*Usage./screenSuccess.sh: After finishing all ab-inito calculation(in our case, VASP software), just collect succeeded alloys 
+                    for the calculation by checking string remark in "OUTCAR" file
+Necessary File:
+	../OUTCARDir/: This is the directory that consists of all finished OUTCAR files for alloy's ab-inito calculation
+
+Output File:
+	1.SUCCESS_AB: only two alloy's atom element symbols and structure name about succeeded calculation
+
+
+*Usage: ./screenFail.sh: After the collection of succeeded files, just collect failed alloys except the succeeded alloys
+Necessary File:
+	1.SUCCESS_AB: come from "screenSuccess.sh"
+
+Intermediate File:
+	2. TOTAL_AB
+
+Output File:
+	3.FAIL_AB: only two alloy's atom element symbols and structure name about failed calculation
+
+*Usage: ./screenTime.sh: After finishing all ab-inito calculation, print used running time
+Necessary File:
+	../OUTCARDir/: This is the directory that consists of all finished OUTCAR files for alloy's ab-inito calculation
+
+Output File:
+	0.USER_TIME: include used time(sec) at first column
+
+**4.Measure-DOSsimilarity  
+*Usage: ./scriptEnergy.sh: print total energy of all alloy's systems from all output of the ab-inito calculation.
+Necessary File: 
+	1.SUCCESS_AB: come from "/Postprocess/"
+
+Output File:
+	TOT_Energy.out: include two alloy's atom element symbols,structure name, and total energy value
+
+*Usage: ./scriptDOSsim.sh DOSCAR_BASE
+Input File: 
+	DOSCAR_BASE: the base DOSCAR file to compare another DOSCAR file
+
+Necessary File:
+	../DOSCARDir/: This is the directory that consists of all finished DOSCAR files for alloy's ab-inito calculation
+	cal_DOS_sim.cc: This is the program to measure DOS similarity from two DOSCAR inputs
+
+Output File:
+	TOT_DOSsim.XX.out: include two alloy's atom element symbols,structure name, and DOS similarity value 
+		XX means the file name of the base DOSCAR.
+
+**5.Build-Alloy.Map
+*Usage: ./build_alloy_map INPUT_A_LIST TOT_Energy.out TOT_Energy-HCP.out TOT_DOSsim.XX.out
+Input File:
+	INPUT_A_LIST: The alloy's first atom element names are written.
+	TOT_Energy.out, TOT_Energy-HCP.out: come from "4.Measure-DOSsimilarity/"
+	DOS_DOSsim.XX.out: come from "4.Measure-DOSsimilarity/"
+
+Output Files:
+	OUTFILE0.dat: print formation energy value about all structure types 
+
+	OUTFILE1.dat: print the table of formation energy value about the most stable structure
+
+	OUTFILE2.dat: print the table of structure type about the most stable structure
+	
+	OUTFILE3.dat: print the table of DOS similarity value (partial comparison of structure cases)
+
+	OUTFILE4.dat: print the table of DOS similarity value about the most stable structure 
+
+	OUTFILE5.dat: print the table of the range of DOS similarity values and count number of alloys to draw the histogram
+
+
